@@ -1223,7 +1223,7 @@ export const animeList: Anime[] = [
     tagline: '은퇴한 전설은 여전히 최강이다.',
     description:
       '모든 악당이 두려워하고 모든 살인청부업자들이 동경하던 그 남자는 어느 날 사랑에 빠졌다!',
-    poster: '/posters/sakamoato.png',
+    poster: '/posters/sakamoto.png',
   },
   {
     id: 'generic',
@@ -1302,12 +1302,24 @@ export const animeList: Anime[] = [
     title: '용사형에 처함징벌용사 9004부대 형무기록',
     original: 'The Prison Records of Penal Hero Unit 9004',
     genre: ['액션','판타지'],
-    year: 2025,
+    year: 2026,
     rating: 8.9,
     tagline: '용사는 영웅이 아니라 죄인이 되었다.',
     description:
       '용사형이란 가장 무거운 형벌이다. 그 형벌은 마왕현상의 최전선에서 죽어도 부활하여 끝없이 싸워야 하는 운명을 의미한다.',
     poster: '/posters/prison.png',
+  },
+  {
+    id: 'atelier',
+    title: '고깔모자의 아틀리에',
+    original: 'Witch Hat Atelier',
+    genre: ['판타지'],
+    year: 2026,
+    rating: 8.7,
+    tagline: '꿈을 그리는 마법사의 이야기',
+    description:
+      '이것은, 마법사를 동경하는 소녀에게 찾아온 절망과 희망의 이야기.',
+    poster: '/posters/atelier.png',
   },
 ]
 
