@@ -1295,7 +1295,7 @@ export const animeList: Anime[] = [
     tagline: '세상이 두려워한 존재가 눈을 뜬다.',
     description:
       '마신족에게 대항하기 위해 인류는 새로운 용사의 소환을 시도한다. 그러나 그곳에서 나타난것은 루파스의 모습이었다',
-    poster: '/posters/fremat.png',
+    poster: '/posters/lastboss.png',
   },
   {
     id: 'prison',
