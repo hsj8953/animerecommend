@@ -28,7 +28,7 @@ export function PosterCard({
         {/* Always-on bottom gradient for title legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
 
-         {/* Top bar: genre badges (left) + rating (right) */}
+        {/* Top bar: genre badges (left) + rating (right) */}
         <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
           <div className="flex min-w-0 flex-wrap gap-1">
             {anime.genre.slice(0, 2).map((g) => (
