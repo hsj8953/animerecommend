@@ -28,23 +28,25 @@ export function PosterCard({
         {/* Always-on bottom gradient for title legibility */}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
 
-        {/* Genre badge */}
-        <div className="absolute left-3 top-3 flex flex-wrap gap-1">
-          {anime.genre.slice(0, 2).map((g) => (
-            <span
-              key={g}
-              className="rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] font-medium text-foreground/90 backdrop-blur-sm"
-            >
-              {g}
-            </span>
-          ))}
-        </div>
+        {/* Top bar: genre badges (left) + rating (right) */}
+        <div className="absolute inset-x-3 top-3 flex items-start justify-between gap-2">
+          <div className="flex min-w-0 flex-wrap gap-1">
+            {anime.genre.slice(0, 2).map((g) => (
+              <span
+                key={g}
+                className="max-w-full truncate rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] font-medium text-foreground/90 backdrop-blur-sm"
+              >
+                {g}
+              </span>
+            ))}
+          </div>
 
-        {/* Rating badge */}
-        <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-amber-300 backdrop-blur-sm">
-          <Star className="size-3 fill-amber-300 text-amber-300" aria-hidden="true" />
-          {anime.rating.toFixed(1)}
-        </span>
+          {/* Rating badge */}
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-amber-300 backdrop-blur-sm">
+            <Star className="size-3 fill-amber-300 text-amber-300" aria-hidden="true" />
+            {anime.rating.toFixed(1)}
+          </span>
+        </div>
 
         {/* Title block */}
         <div className="absolute inset-x-0 bottom-0 p-4">
