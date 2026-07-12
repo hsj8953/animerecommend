@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { SiteHeader } from '@/components/site-header'
 import { SideNav } from '@/components/side-nav'
 import { SitesModal } from '@/components/sites-modal'
+import { RandomModal } from '@/components/random-modal'
 import { AnimeModal } from '@/components/anime-modal'
 import { Hero } from '@/components/hero'
 import { Showcase } from '@/components/showcase'
@@ -18,6 +19,7 @@ export function SiteExperience() {
   )
   const [navOpen, setNavOpen] = useState(false)
   const [sitesOpen, setSitesOpen] = useState(false)
+  const [randomOpen, setRandomOpen] = useState(false)
   const [randomAnime, setRandomAnime] = useState<Anime | null>(null)
 
   useEffect(() => {
@@ -49,9 +51,19 @@ export function SiteExperience() {
     setView('home')
   }
 
-  const pickRandom = () => {
-    const pool = animeList.filter((a) => a.id !== randomAnime?.id)
+  const pickRandom = (genre: string) => {
+    const byGenre =
+      genre === '전체'
+        ? animeList
+        : animeList.filter((a) => a.genre.some((g) => g.includes(genre)))
+    // 같은 작품이 연속으로 나오지 않도록 제외 (풀이 2개 이상일 때만)
+    const pool =
+      byGenre.length > 1
+        ? byGenre.filter((a) => a.id !== randomAnime?.id)
+        : byGenre
+    if (pool.length === 0) return
     const next = pool[Math.floor(Math.random() * pool.length)]
+    setRandomOpen(false)
     setRandomAnime(next)
   }
 
@@ -70,13 +82,17 @@ export function SiteExperience() {
         open={navOpen}
         onClose={() => setNavOpen(false)}
         onHome={() => goHome()}
-        onRanking={() => goHome('ranking')}
         onCollection={() => setView('collection')}
-        onRandom={pickRandom}
+        onRandom={() => setRandomOpen(true)}
         onSearch={() => goHome('search')}
         onSites={() => setSitesOpen(true)}
       />
       <SitesModal open={sitesOpen} onClose={() => setSitesOpen(false)} />
+      <RandomModal
+        open={randomOpen}
+        onClose={() => setRandomOpen(false)}
+        onPick={pickRandom}
+      />
       <AnimeModal anime={randomAnime} onClose={() => setRandomAnime(null)} />
     </>
   )

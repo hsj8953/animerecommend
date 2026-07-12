@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { Home, Star, LayoutGrid, Shuffle, Search, Globe, X } from 'lucide-react'
+import { Home, LayoutGrid, Shuffle, Search, Globe, X } from 'lucide-react'
 
 type NavAction = {
   key: string
@@ -15,7 +15,6 @@ export function SideNav({
   open,
   onClose,
   onHome,
-  onRanking,
   onCollection,
   onRandom,
   onSearch,
@@ -24,7 +23,6 @@ export function SideNav({
   open: boolean
   onClose: () => void
   onHome: () => void
-  onRanking: () => void
   onCollection: () => void
   onRandom: () => void
   onSearch: () => void
@@ -54,9 +52,8 @@ export function SideNav({
 
   const primary: NavAction[] = [
     { key: 'home', label: '홈', description: '메인으로 돌아가기', icon: Home, onClick: run(onHome) },
-    { key: 'ranking', label: 'TOP 10', description: '평점 높은 인기작', icon: Star, onClick: run(onRanking) },
     { key: 'collection', label: '컬렉션', description: '상황별 추천 모음', icon: LayoutGrid, onClick: run(onCollection) },
-    { key: 'random', label: '랜덤 추천', description: '오늘 뭐 볼지 골라줄게요', icon: Shuffle, onClick: run(onRandom) },
+    { key: 'random', label: '랜덤 추천', description: '장르별로 골라줄게요', icon: Shuffle, onClick: run(onRandom) },
   ]
 
   const secondary: NavAction[] = [
