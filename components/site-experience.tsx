@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { SiteHeader } from '@/components/site-header'
+import { SideNav } from '@/components/side-nav'
+import { SitesModal } from '@/components/sites-modal'
+import { AnimeModal } from '@/components/anime-modal'
 import { Hero } from '@/components/hero'
 import { Showcase } from '@/components/showcase'
 import { SituationCollection } from '@/components/situation-collection'
+import { animeList, type Anime } from '@/lib/anime-data'
 
 export function SiteExperience() {
   const [entered, setEntered] = useState(false)
@@ -12,6 +16,9 @@ export function SiteExperience() {
   const [pendingScroll, setPendingScroll] = useState<'ranking' | 'search' | null>(
     null,
   )
+  const [navOpen, setNavOpen] = useState(false)
+  const [sitesOpen, setSitesOpen] = useState(false)
+  const [randomAnime, setRandomAnime] = useState<Anime | null>(null)
 
   useEffect(() => {
     if (view === 'collection') {
@@ -42,6 +49,12 @@ export function SiteExperience() {
     setView('home')
   }
 
+  const pickRandom = () => {
+    const pool = animeList.filter((a) => a.id !== randomAnime?.id)
+    const next = pool[Math.floor(Math.random() * pool.length)]
+    setRandomAnime(next)
+  }
+
   if (!entered) {
     return (
       <div className="animate-in fade-in duration-500">
@@ -50,13 +63,28 @@ export function SiteExperience() {
     )
   }
 
+  const chrome = (
+    <>
+      <SiteHeader onMenuClick={() => setNavOpen(true)} onNavigateHome={goHome} />
+      <SideNav
+        open={navOpen}
+        onClose={() => setNavOpen(false)}
+        onHome={() => goHome()}
+        onRanking={() => goHome('ranking')}
+        onCollection={() => setView('collection')}
+        onRandom={pickRandom}
+        onSearch={() => goHome('search')}
+        onSites={() => setSitesOpen(true)}
+      />
+      <SitesModal open={sitesOpen} onClose={() => setSitesOpen(false)} />
+      <AnimeModal anime={randomAnime} onClose={() => setRandomAnime(null)} />
+    </>
+  )
+
   if (view === 'collection') {
     return (
       <div className="animate-in fade-in duration-500">
-        <SiteHeader
-          onNavigateCollection={() => setView('collection')}
-          onNavigateHome={goHome}
-        />
+        {chrome}
         <SituationCollection onBack={() => setView('home')} />
       </div>
     )
@@ -64,10 +92,7 @@ export function SiteExperience() {
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <SiteHeader
-        onNavigateCollection={() => setView('collection')}
-        onNavigateHome={goHome}
-      />
+      {chrome}
       <Showcase />
       <footer className="border-t border-border">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">

@@ -1,19 +1,17 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Search } from 'lucide-react'
-import { SitesModal } from '@/components/sites-modal'
+import { Menu } from 'lucide-react'
 import { ThemeToggle } from '@/components/theme-toggle'
 
 export function SiteHeader({
-  onNavigateCollection,
+  onMenuClick,
   onNavigateHome,
 }: {
-  onNavigateCollection?: () => void
+  onMenuClick: () => void
   onNavigateHome?: (target?: 'ranking' | 'search') => void
 }) {
   const [scrolled, setScrolled] = useState(false)
-  const [sitesOpen, setSitesOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -21,10 +19,6 @@ export function SiteHeader({
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
-
-  const focusSearch = () => {
-    onNavigateHome?.('search')
-  }
 
   return (
     <header
@@ -35,44 +29,24 @@ export function SiteHeader({
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <button
-          onClick={() => onNavigateHome?.()}
-          className="font-serif text-xl text-foreground"
-        >
-          Ani<span className="text-primary">Pick</span>
-        </button>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <button
+            onClick={onMenuClick}
+            aria-label="메뉴 열기"
+            className="flex size-9 items-center justify-center rounded-full text-foreground transition-colors hover:bg-secondary"
+          >
+            <Menu className="size-5" aria-hidden="true" />
+          </button>
+          <button
+            onClick={() => onNavigateHome?.()}
+            className="font-serif text-xl text-foreground"
+          >
+            Ani<span className="text-primary">Pick</span>
+          </button>
+        </div>
 
-        <nav className="flex items-center gap-1 sm:gap-2" aria-label="주요 메뉴">
-          <button
-            onClick={() => onNavigateHome?.('ranking')}
-            className="hidden whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:inline-flex"
-          >
-            TOP 10
-          </button>
-          <button
-            onClick={onNavigateCollection}
-            className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          >
-            컬렉션
-          </button>
-          <button
-            onClick={() => setSitesOpen(true)}
-            className="whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          >
-            애니 사이트
-          </button>
-          <button
-            onClick={focusSearch}
-            aria-label="작품 검색"
-            className="flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          >
-            <Search className="size-4" aria-hidden="true" />
-          </button>
-          <ThemeToggle />
-        </nav>
+        <ThemeToggle />
       </div>
-
-      <SitesModal open={sitesOpen} onClose={() => setSitesOpen(false)} />
     </header>
   )
 }
