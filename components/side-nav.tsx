@@ -71,7 +71,7 @@ export function SideNav({
         aria-label="메뉴 닫기"
         tabIndex={open ? 0 : -1}
         onClick={onClose}
-        className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`absolute inset-0 bg-black/70 transition-opacity duration-300 ${
           open ? 'opacity-100' : 'opacity-0'
         }`}
       />
@@ -82,7 +82,7 @@ export function SideNav({
         role="dialog"
         aria-modal="true"
         aria-label="사이트 메뉴"
-        className={`absolute inset-y-0 left-0 flex w-[280px] max-w-[82vw] flex-col border-r border-border bg-card shadow-2xl transition-transform duration-300 ease-out ${
+        className={`absolute inset-y-0 left-0 flex w-[280px] max-w-[82vw] transform-gpu flex-col border-r border-border bg-card shadow-2xl transition-transform duration-300 ease-out will-change-transform ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
