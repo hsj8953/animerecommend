@@ -52,13 +52,13 @@ export function SideNav({
 
   const primary: NavAction[] = [
     { key: 'home', label: '홈', description: '메인으로 돌아가기', icon: Home, onClick: run(onHome) },
-    { key: 'collection', label: '컬렉션', description: '상황별 추천 모음', icon: LayoutGrid, onClick: run(onCollection) },
+    { key: 'collection', label: '테마별 추천', description: '상황별 추천 모음', icon: LayoutGrid, onClick: run(onCollection) },
     { key: 'random', label: '랜덤 추천', description: '장르별로 골라줄게요', icon: Shuffle, onClick: run(onRandom) },
   ]
 
   const secondary: NavAction[] = [
     { key: 'search', label: '작품 검색', description: '제목·원제·소개로 찾기', icon: Search, onClick: run(onSearch) },
-    { key: 'sites', label: '애니 사이트', description: '정식 스트리밍 바로가기', icon: Globe, onClick: run(onSites) },
+    { key: 'sites', label: '애니 사이트', description: '스트리밍 바로가기', icon: Globe, onClick: run(onSites) },
   ]
 
   return (

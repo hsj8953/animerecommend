@@ -39,14 +39,16 @@ export const situationCategories: SituationCategory[] = [
     emoji: '🌙',
     title: '자기 전에 보기 좋은 애니',
     description: '잔잔하게 하루를 마무리하기 좋은 작품들',
-    animeIds: ['frieren', 'spirited-away', 'violet-evergarden', 'girl-who-leapt', 'clannad'],
+    animeIds: ['frieren', 'eternity', 'yourapril', 'plasticmemories', 'silentwitch'],
   },
   {
     id: 'tearjerker',
     emoji: '😭',
     title: '눈물 보장 애니',
     description: '휴지를 준비해야 하는 감동의 명작',
-    animeIds: ['clannad', 'violet-evergarden', 'a-silent-voice', 'your-name'],
+    animeIds: ['clannad', 'yourname', 'throughtime', 'clannadafter', 'angelbeat', 'anohana', 'yourapril', 'assassinationclassroom', 'plasticmemories', 'cyberpunk',
+      'sayonaranoasa', 'violetevergarden'
+    ],
   },
   {
     id: 'plot-master',
@@ -104,13 +106,13 @@ export const situationCategories: SituationCategory[] = [
     description: '덜 알려졌지만 놓치면 아까운 작품',
     animeIds: ['monster', 'clannad', 'made-in-abyss', 'girl-who-leapt'],
   },
-  {
-    id: 'one-day-binge',
-    emoji: '📺',
-    title: '하루만에 정주행 가능',
-    description: '짧고 굵게 몰아보기 좋은 작품',
-    animeIds: ['your-name', 'a-silent-voice', 'weathering-with-you', 'girl-who-leapt', 'summer-wars'],
-  },
+  // {
+  //   id: 'one-day-binge',
+  //   emoji: '📺',
+  //   title: '하루만에 정주행 가능',
+  //   description: '짧고 굵게 몰아보기 좋은 작품',
+  //   animeIds: ['your-name', 'a-silent-voice', 'weathering-with-you', 'girl-who-leapt', 'summer-wars'],
+  // },
   {
     id: 'movies',
     emoji: '🎥',
@@ -122,7 +124,7 @@ export const situationCategories: SituationCategory[] = [
 
 export const animeList: Anime[] = [
   {
-    id: 'your-name',
+    id: 'yourname',
     title: '너의 이름은',
     original: 'Your Name',
     genre: ['극장판', '드라마'],
@@ -158,7 +160,7 @@ export const animeList: Anime[] = [
     poster: '/posters/onepiece.png',
   },
   {
-    id: 'The Girl Who Leapt Through Time',
+    id: 'throughtime',
     title: '시간을 달리는 소녀',
     original: 'The Girl Who Leapt Through Time',
     genre: ['극장판', '드라마'],
@@ -170,7 +172,7 @@ export const animeList: Anime[] = [
     poster: '/posters/The Girl Who Leapt Through Time.png',
   },
   {
-    id: 'DeathNote',
+    id: 'deathnote',
     title: '데스노트',
     original: 'DeathNote',
     genre: ['스릴러', '심리'],
@@ -182,7 +184,7 @@ export const animeList: Anime[] = [
     poster: '/posters/deathnote.png',
   },
   {
-    id: 'Clannad',
+    id: 'clannad',
     title: '클라나드',
     original: 'Clannad',
     genre: ['로맨스', '드라마'],
@@ -206,7 +208,7 @@ export const animeList: Anime[] = [
     poster: '/posters/toradora.png',
   },
   {
-    id: 'ClannadAfter',
+    id: 'clannadafter',
     title: '클라나드: 애프터 스토리',
     original: 'Clannad After',
     genre: ['로맨스', '드라마'],
@@ -218,7 +220,7 @@ export const animeList: Anime[] = [
     poster: '/posters/clannadafter.png',
   },
   {
-    id: 'ToReachYou',
+    id: 'toreachyou',
     title: '너에게 닿기를',
     original: 'To Reach You',
     genre: ['로맨스', '드라마'],
@@ -230,7 +232,7 @@ export const animeList: Anime[] = [
     poster: '/posters/toreachyou.png',
   },
   {
-    id: 'Angelbeat',
+    id: 'angelbeat',
     title: '엔젤비트',
     original: 'Angelbeat',
     genre: ['로맨스', '드라마'],
@@ -257,7 +259,7 @@ export const animeList: Anime[] = [
     id: 'anohana',
     title: '그날 본 꽃의 이름을 우리는 아직 모른다',
     original: 'Anohana',
-    genre: ['로맨스, 드라마'],
+    genre: ['로맨스', '드라마'],
     year: 2011,
     rating: 8.9,
     tagline: '그날 여기에서 멈추었던 시간이 움직이기 시작한다.',
@@ -696,6 +698,30 @@ export const animeList: Anime[] = [
     description:
       '난 세상을 구하지 않는다. 고블린을 죽일뿐이다. 수단과 방법을 가리지 않고 고블린만을 퇴치했다.',
     poster: '/posters/goblin.png',
+  },
+  {
+    id: 'violetevergarden',
+    title: '바이올렛 에버가든',
+    original: 'Violet Evergarden',
+    genre: ['드라마', '판타지'],
+    year: 2018,
+    rating: 9.0,
+    tagline: '마음을 글로 전하는 소녀.',
+    description:
+      '마음을 글로 적는다. 사랑을 알기 위해. 감정을 가지지 않은 한 소녀가 있다. 그녀의 이름은 바이올렛 에버가든',
+    poster: '/posters/violet.png',
+  },
+  {
+    id: 'sayonaranoasa',
+    title: '이별의 아침에 약속의 꽃을 장식하자',
+    original: 'MAQUIA: When the Promised Flower Blooms',
+    genre: ['극장판', '드라마'],
+    year: 2018,
+    rating: 8.7,
+    tagline: '영원한 삶이 가장 슬픈 이별을 만든다.',
+    description:
+      '사랑해서 행복했어. 영원을 살아가는 마키아와 숲 속에 버려진 아이 아리엘 우연히 만난 두 사람의 네버엔딩 스토리',
+    poster: '/posters/sayonara.png',
   },
   {
     id: 'kaguyasama',
