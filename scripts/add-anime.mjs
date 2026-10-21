@@ -121,7 +121,6 @@ async function main() {
     if (isMovie) suggestedGenres.push('극장판')
 
     console.log('\n— 가져온 정보를 확인하세요 (엔터 = 그대로 사용) —')
-    console.log(`장르 선택지 (번호나 이름으로 입력): ${SITE_GENRES.map((g, i) => `${i + 1}.${g}`).join('  ')}`)
 
     let id = await ask('id (영문 소문자)', slugify(enTitle) || slugify(ko.original_name ?? ''))
     while (!/^[a-z0-9-]+$/.test(id) || list.some((a) => a.id === id)) {
@@ -131,6 +130,7 @@ async function main() {
     const title = await ask('제목', koTitle)
     const original = await ask('원제(영문)', enTitle)
 
+    console.log(`\n장르 선택지 (번호나 이름으로 입력): ${SITE_GENRES.map((g, i) => `${i + 1}.${g}`).join('  ')}`)
     let genre
     for (;;) {
       genre = [...new Set(parseGenres(await ask('장르 (예: 3,9)', suggestedGenres.join(','))))]
