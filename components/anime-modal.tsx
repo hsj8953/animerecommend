@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { Star, X, Calendar, Tag } from 'lucide-react'
 import type { Anime } from '@/lib/anime-data'
+import { useModal } from '@/lib/use-modal'
 
 export function AnimeModal({
   anime,
@@ -20,19 +21,7 @@ export function AnimeModal({
     setMounted(true)
   }, [])
 
-  useEffect(() => {
-    if (!anime) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    closeRef.current?.focus()
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [anime, onClose])
+  useModal(Boolean(anime), onClose, closeRef)
 
   if (!anime || !mounted) return null
 

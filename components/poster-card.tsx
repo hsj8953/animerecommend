@@ -63,7 +63,7 @@ export function PosterCard({
               <p className="mt-2 text-sm font-medium text-foreground">
                 {anime.tagline}
               </p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
                 {anime.description}
               </p>
             </div>

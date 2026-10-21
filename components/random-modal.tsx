@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Shuffle, X } from 'lucide-react'
 import { genres } from '@/lib/anime-data'
+import { useModal } from '@/lib/use-modal'
 
 export function RandomModal({
   open,
@@ -16,20 +17,11 @@ export function RandomModal({
   const [selected, setSelected] = useState<string>('전체')
   const closeRef = useRef<HTMLButtonElement>(null)
 
+  useModal(open, onClose, closeRef)
+
   useEffect(() => {
-    if (!open) return
-    setSelected('전체')
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    closeRef.current?.focus()
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [open, onClose])
+    if (open) setSelected('전체')
+  }, [open])
 
   if (!open) return null
 

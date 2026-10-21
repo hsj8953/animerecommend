@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { Home, LayoutGrid, Shuffle, Search, Globe, X } from 'lucide-react'
+import { useModal } from '@/lib/use-modal'
 
 type NavAction = {
   key: string
@@ -31,19 +32,7 @@ export function SideNav({
   const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    closeRef.current?.focus()
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [open, onClose])
+  useModal(open, onClose, closeRef)
 
   const run = (fn: () => void) => () => {
     onClose()

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { X, ExternalLink } from 'lucide-react'
+import { useModal } from '@/lib/use-modal'
 
 // 여기에 애니 사이트 링크를 추가하세요.
 // 예: { name: '라프텔', url: 'https://laftel.net', description: '국내 애니 스트리밍' }
@@ -27,19 +28,7 @@ export function SitesModal({
     setMounted(true)
   }, [])
 
-  useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    document.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    closeRef.current?.focus()
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [open, onClose])
+  useModal(open, onClose, closeRef)
 
   if (!open || !mounted) return null
 

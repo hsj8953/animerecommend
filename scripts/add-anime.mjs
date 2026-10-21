@@ -170,7 +170,7 @@ async function main() {
       rating: Math.round(rating * 10) / 10,
       tagline,
       description,
-      poster: ko.poster_path ? `/posters/${id}.jpg` : '/placeholder.svg',
+      poster: ko.poster_path ? `/posters/${id}.webp` : '/placeholder.svg',
     }
 
     console.log('\n' + JSON.stringify(anime, null, 2))
@@ -182,8 +182,13 @@ async function main() {
     if (ko.poster_path) {
       const res = await fetch(`https://image.tmdb.org/t/p/w780${ko.poster_path}`)
       if (!res.ok) throw new Error(`포스터 다운로드 실패: ${res.status}`)
-      fs.writeFileSync(path.join(POSTER_DIR, `${id}.jpg`), Buffer.from(await res.arrayBuffer()))
-      console.log(`✔ 포스터 저장: public/posters/${id}.jpg`)
+      // sharp 는 next 에 포함되어 설치된다. 기존 포스터와 같은 설정(가로 600px 이하, WebP)으로 저장
+      const { default: sharp } = await import('sharp')
+      await sharp(Buffer.from(await res.arrayBuffer()))
+        .resize({ width: 600, withoutEnlargement: true })
+        .webp({ quality: 82 })
+        .toFile(path.join(POSTER_DIR, `${id}.webp`))
+      console.log(`✔ 포스터 저장: public/posters/${id}.webp`)
     } else {
       console.log('! TMDB에 포스터가 없어 placeholder 를 사용합니다. 직접 넣고 poster 경로를 고치세요.')
     }
