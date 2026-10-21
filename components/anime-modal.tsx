@@ -60,7 +60,7 @@ export function AnimeModal({
         </button>
 
         <div className="grid gap-0 sm:grid-cols-[240px_1fr]">
-          <div className="relative aspect-[2/3] sm:h-full">
+          <div className="relative aspect-[2/3] sm:aspect-auto sm:min-h-[360px]">
             <Image
               src={anime.poster || '/placeholder.svg'}
               alt={`${anime.title} 포스터`}
