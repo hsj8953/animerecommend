@@ -112,9 +112,21 @@ export function SiteExperience() {
       <Showcase />
       <footer className="border-t border-border">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-start">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <p className="font-serif text-lg text-foreground">
               Ani<span className="text-primary">Pick</span>
+            </p>
+            <p className="text-xs text-muted-foreground">
+              작품 정보 및 포스터 일부 출처:{' '}
+              <a
+                href="https://www.themoviedb.org"
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2 hover:text-foreground"
+              >
+                TMDB
+              </a>
+              . This product uses the TMDB API but is not endorsed or certified by TMDB.
             </p>
           </div>
         </div>
