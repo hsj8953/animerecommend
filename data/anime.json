@@ -1409,5 +1409,18 @@
     "tagline": "꿈을 그리는 마법사의 이야기",
     "description": "이것은, 마법사를 동경하는 소녀에게 찾아온 절망과 희망의 이야기.",
     "poster": "/posters/atelier.png"
+  },
+  {
+    "id": "maonomusme",
+    "title": "마왕의 딸은 너무 친절해!!",
+    "original": "The Demon King's Daughter Is Too Kind!!",
+    "genre": [
+      "코미디"
+    ],
+    "year": 2026,
+    "rating": 8.5,
+    "tagline": "순진무구 천진난만한 마왕의 딸 '두' 를 통해 바라본 마족과 인간의 생활",
+    "description": "너무 착한 딸 도우가 걱정돼 마왕이 침략을 멈추자, 측근 자히가 도우를 마족답게 키우려 시련을 주지만 오히려 친절만 더 퍼지는 힐링 코미디.",
+    "poster": "/posters/maonomusme.jpg"
   }
 ]
