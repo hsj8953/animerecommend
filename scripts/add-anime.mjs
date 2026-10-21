@@ -56,6 +56,19 @@ async function tmdb(endpoint, params = {}) {
   return res.json()
 }
 
+// "1,3" / "판타지 드라마" / "판타지，드라마" / "sf" 모두 받는다. 모르는 값은 그대로 돌려줘서 다시 묻게 한다
+function parseGenres(input) {
+  return input
+    .normalize('NFC')
+    .replace(/[​-‍﻿]/g, '')
+    .split(/[\s,，、/]+/)
+    .filter(Boolean)
+    .map((token) => {
+      if (/^\d+$/.test(token)) return SITE_GENRES[Number(token) - 1] ?? token
+      return SITE_GENRES.find((g) => g.toLowerCase() === token.toLowerCase()) ?? token
+    })
+}
+
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 30)
 }
@@ -108,7 +121,7 @@ async function main() {
     if (isMovie) suggestedGenres.push('극장판')
 
     console.log('\n— 가져온 정보를 확인하세요 (엔터 = 그대로 사용) —')
-    console.log(`장르 선택지: ${SITE_GENRES.join(', ')}`)
+    console.log(`장르 선택지 (번호나 이름으로 입력): ${SITE_GENRES.map((g, i) => `${i + 1}.${g}`).join('  ')}`)
 
     let id = await ask('id (영문 소문자)', slugify(enTitle) || slugify(ko.original_name ?? ''))
     while (!/^[a-z0-9-]+$/.test(id) || list.some((a) => a.id === id)) {
@@ -120,16 +133,18 @@ async function main() {
 
     let genre
     for (;;) {
-      genre = (await ask('장르 (쉼표로 구분)', suggestedGenres.join(',')))
-        .split(',')
-        .map((g) => g.trim())
-        .filter(Boolean)
+      genre = [...new Set(parseGenres(await ask('장르 (예: 3,9)', suggestedGenres.join(','))))]
       const unknown = genre.filter((g) => !SITE_GENRES.includes(g))
       if (genre.length > 0 && unknown.length === 0) break
-      console.log(`사이트에 없는 장르: ${unknown.join(', ') || '(비어 있음)'}`)
+      console.log(`알 수 없는 장르: ${unknown.join(', ') || '(비어 있음)'} — 번호(1~${SITE_GENRES.length})로 입력해 보세요.`)
     }
 
-    const yearInput = Number(await ask('연도', year ? String(year) : ''))
+    let yearInput
+    for (;;) {
+      yearInput = Number(await ask('연도', year ? String(year) : ''))
+      if (Number.isInteger(yearInput) && yearInput >= 1950 && yearInput <= 2100) break
+      console.log('4자리 연도를 입력하세요.')
+    }
 
     let rating
     for (;;) {
