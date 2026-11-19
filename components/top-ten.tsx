@@ -3,9 +3,10 @@
 import { useRef } from 'react'
 import Image from 'next/image'
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
-import { animeList, type Anime } from '@/lib/anime-data'
+import { animeByRating, type Anime } from '@/lib/anime-data'
 
-const topTen = [...animeList].sort((a, b) => b.rating - a.rating).slice(0, 10)
+// 동점이면 최신작 → 가나다순 (lib/anime-data.ts 의 compareByRating)
+const topTen = animeByRating.slice(0, 10)
 
 export function TopTen({ onSelect }: { onSelect: (anime: Anime) => void }) {
   const scrollerRef = useRef<HTMLOListElement>(null)

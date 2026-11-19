@@ -1,7 +1,14 @@
 'use client'
 
 import Image from 'next/image'
-import { animeList, genres } from '@/lib/anime-data'
+import { animeByRating, animeList, genres } from '@/lib/anime-data'
+
+// 첫 화면 배경에 흐르는 포스터는 평점 상위 30편만 쓴다 (103편을 전부 불러오면 첫 로딩이 무거움).
+// 두 줄에 번갈아 나눠 담아서 한 줄에 상위권 작품이 몰리지 않게 한다.
+const MARQUEE_COUNT = 30
+const marqueeAnime = animeByRating.slice(0, MARQUEE_COUNT)
+const rowOne = marqueeAnime.filter((_, i) => i % 2 === 0)
+const rowTwo = marqueeAnime.filter((_, i) => i % 2 === 1)
 
 export function Hero({
   onEnter,
@@ -15,10 +22,6 @@ export function Hero({
   const avg = (
     animeList.reduce((sum, a) => sum + a.rating, 0) / total
   ).toFixed(1)
-
-  const half = Math.ceil(animeList.length / 2)
-  const rowOne = animeList.slice(0, half)
-  const rowTwo = animeList.slice(half)
 
   return (
     <header className="relative overflow-hidden">

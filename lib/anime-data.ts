@@ -128,6 +128,26 @@ export const animeList: Anime[] = animeData
 
 const animeById = new Map(animeList.map((a) => [a.id, a]))
 
+export function getAnimeById(id: string | null): Anime | null {
+  return (id && animeById.get(id)) || null
+}
+
+// 평점 높은순. 평점이 같으면 최신작 → 가나다순으로 한 번 더 정렬해서 순서가 항상 같게 한다
+export function compareByRating(a: Anime, b: Anime): number {
+  return (
+    b.rating - a.rating ||
+    b.year - a.year ||
+    a.title.localeCompare(b.title, 'ko')
+  )
+}
+
+// 최신순. 같은 해면 평점 높은순
+export function compareByYear(a: Anime, b: Anime): number {
+  return b.year - a.year || compareByRating(a, b)
+}
+
+export const animeByRating: Anime[] = [...animeList].sort(compareByRating)
+
 export function getAnimeByIds(ids: string[]): Anime[] {
   return ids
     .map((id) => animeById.get(id))

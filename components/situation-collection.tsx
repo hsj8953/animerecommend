@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   situationCategories,
@@ -9,7 +9,6 @@ import {
   type SituationCategory,
 } from '@/lib/anime-data'
 import { PosterCard } from '@/components/poster-card'
-import { AnimeModal } from '@/components/anime-modal'
 
 function CategoryRow({
   category,
@@ -67,8 +66,13 @@ function CategoryRow({
   )
 }
 
-export function SituationCollection({ onBack }: { onBack: () => void }) {
-  const [selected, setSelected] = useState<Anime | null>(null)
+export function SituationCollection({
+  onBack,
+  onSelect,
+}: {
+  onBack: () => void
+  onSelect: (anime: Anime) => void
+}) {
 
   return (
     <>
@@ -94,11 +98,10 @@ export function SituationCollection({ onBack }: { onBack: () => void }) {
 
       <div className="mx-auto flex max-w-7xl flex-col gap-14 px-4 py-14 sm:px-6 lg:px-8">
         {situationCategories.map((category) => (
-          <CategoryRow key={category.id} category={category} onSelect={setSelected} />
+          <CategoryRow key={category.id} category={category} onSelect={onSelect} />
         ))}
       </div>
 
-      <AnimeModal anime={selected} onClose={() => setSelected(null)} />
     </>
   )
 }

@@ -2,10 +2,15 @@
 
 import { useMemo, useState } from 'react'
 import { Search, X, SlidersHorizontal } from 'lucide-react'
-import { animeList, genres, type Anime } from '@/lib/anime-data'
+import {
+  animeList,
+  compareByRating,
+  compareByYear,
+  genres,
+  type Anime,
+} from '@/lib/anime-data'
 import { PosterCard } from '@/components/poster-card'
 import { TopTen } from '@/components/top-ten'
-import { AnimeModal } from '@/components/anime-modal'
 
 type SortKey = 'rating' | 'year' | 'title'
 
@@ -15,11 +20,10 @@ const sortOptions: { key: SortKey; label: string }[] = [
   { key: 'title', label: '가나다순' },
 ]
 
-export function Showcase() {
+export function Showcase({ onSelect }: { onSelect: (anime: Anime) => void }) {
   const [active, setActive] = useState<string>('전체')
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<SortKey>('rating')
-  const [selected, setSelected] = useState<Anime | null>(null)
 
   const q = query.trim().toLowerCase()
 
@@ -35,8 +39,8 @@ export function Showcase() {
     })
 
     return [...filtered].sort((a, b) => {
-      if (sort === 'rating') return b.rating - a.rating
-      if (sort === 'year') return b.year - a.year
+      if (sort === 'rating') return compareByRating(a, b)
+      if (sort === 'year') return compareByYear(a, b)
       return a.title.localeCompare(b.title, 'ko')
     })
   }, [active, q, sort])
@@ -45,7 +49,7 @@ export function Showcase() {
 
   return (
     <>
-      <TopTen onSelect={setSelected} />
+      <TopTen onSelect={onSelect} />
 
       <section id="collection" className="mx-auto max-w-7xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
         {/* Search bar */}
@@ -132,7 +136,7 @@ export function Showcase() {
         {results.length > 0 ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {results.map((anime) => (
-              <PosterCard key={anime.id} anime={anime} onSelect={setSelected} />
+              <PosterCard key={anime.id} anime={anime} onSelect={onSelect} />
             ))}
           </div>
         ) : (
@@ -154,7 +158,6 @@ export function Showcase() {
         )}
       </section>
 
-      <AnimeModal anime={selected} onClose={() => setSelected(null)} />
     </>
   )
 }
