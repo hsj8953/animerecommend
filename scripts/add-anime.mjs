@@ -196,7 +196,7 @@ async function main() {
     list.push(anime)
     fs.writeFileSync(DATA_FILE, JSON.stringify(list, null, 2) + '\n')
     console.log(`✔ data/anime.json 에 추가했습니다 (총 ${list.length}편)`)
-    console.log(`  상황별 테마에 넣으려면 lib/anime-data.ts 의 animeIds 에 '${id}' 를 추가하세요.`)
+    console.log(`  상황별 테마에 넣으려면 data/themes.json 의 animeIds 에 '${id}' 를 추가하세요.`)
   } finally {
     rl.close()
   }
