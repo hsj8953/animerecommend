@@ -97,7 +97,9 @@ export async function saveAnime(input: SaveInput) {
   let poster = previous?.poster ?? '/placeholder.svg'
   if (input.tmdbPosterPath) {
     const file = await downloadPoster(input.tmdbPosterPath)
-    poster = `/posters/${fields.id}.${file.ext}`
+    // 포스터를 바꿀 때마다 파일 이름을 새로 만든다. 이름이 같으면 이미지 캐시(31일)와
+    // 앱 저장본이 예전 포스터를 계속 보여줄 수 있어서.
+    poster = `/posters/${fields.id}-${Date.now().toString(36)}.${file.ext}`
     changes.push({ path: `public${poster}`, base64: file.base64 })
   }
 

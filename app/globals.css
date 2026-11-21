@@ -131,6 +131,11 @@
   }
 }
 
+/* 공유 링크·앱으로 열 때 첫 화면을 숨긴다 (app/layout.tsx 의 DEEP_LINK_SCRIPT) */
+.deep-link [data-hero] {
+  display: none;
+}
+
 @keyframes hero-marquee-left {
   from {
     transform: translateX(0);

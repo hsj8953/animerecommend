@@ -39,6 +39,11 @@ export function SiteExperience() {
     }
   }, [url, selectedAnime, navigate])
 
+  // 첫 화면을 건너뛰었으면 숨김 표시를 지운다 (나중에 첫 화면으로 돌아가면 보이게)
+  useEffect(() => {
+    if (entered) document.documentElement.classList.remove('deep-link')
+  }, [entered])
+
   const prevView = useRef(view)
   useEffect(() => {
     if (prevView.current !== view && view === 'theme') {

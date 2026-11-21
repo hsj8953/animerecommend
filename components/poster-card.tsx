@@ -2,15 +2,24 @@ import Image from 'next/image'
 import { Star } from 'lucide-react'
 import type { Anime } from '@/lib/anime-data'
 
+// 목록 그리드 기준 크기. 가로로 넘기는 줄처럼 폭이 고정된 곳은 sizes 를 따로 넘긴다
+const GRID_SIZES = '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw'
+
 export function PosterCard({
   anime,
   onSelect,
+  sizes = GRID_SIZES,
 }: {
   anime: Anime
   onSelect?: (anime: Anime) => void
+  sizes?: string
 }) {
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-border bg-card transition-transform duration-300 ease-out hover:-translate-y-1">
+    <article
+      // 화면 밖 카드는 그리기를 미룬다 (104장을 한 번에 배치·그리지 않도록)
+      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 320px' }}
+      className="group relative overflow-hidden rounded-xl border border-border bg-card transition-transform duration-300 ease-out hover:-translate-y-1"
+    >
       <button
         onClick={() => onSelect?.(anime)}
         aria-label={`${anime.title} 상세 보기`}
@@ -21,7 +30,7 @@ export function PosterCard({
           src={anime.poster || '/placeholder.svg'}
           alt={`${anime.title} 포스터`}
           fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+          sizes={sizes}
           className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 

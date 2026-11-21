@@ -7,7 +7,7 @@
 //
 // 이 파일을 크게 바꿨을 때는 VERSION 을 올리면 예전 저장본이 지워진다.
 
-const VERSION = 'v1'
+const VERSION = 'v2'
 const STATIC_CACHE = `anipick-static-${VERSION}`
 const PAGE_CACHE = `anipick-pages-${VERSION}`
 const MAX_STATIC_ENTRIES = 300
@@ -34,6 +34,7 @@ function isBuildAsset(url) {
 
 function isImage(url) {
   return (
+    url.pathname === '/_next/image' || // 크기를 줄인 포스터 (?url=...&w=... 마다 따로 저장)
     url.pathname.startsWith('/posters/') ||
     url.pathname.startsWith('/icons/') ||
     url.pathname === '/icon.svg' ||
@@ -50,7 +51,7 @@ async function trim(cacheName, max) {
 
 async function cacheFirst(request) {
   const cache = await caches.open(STATIC_CACHE)
-  const hit = await cache.match(request, { ignoreSearch: true })
+  const hit = await cache.match(request)
   if (hit) return hit
   const res = await fetch(request)
   if (res.ok) {
@@ -62,7 +63,7 @@ async function cacheFirst(request) {
 
 async function staleWhileRevalidate(event, request) {
   const cache = await caches.open(STATIC_CACHE)
-  const hit = await cache.match(request, { ignoreSearch: true })
+  const hit = await cache.match(request)
   const refresh = fetch(request)
     .then((res) => {
       if (res.ok) {

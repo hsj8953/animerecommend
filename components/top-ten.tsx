@@ -66,6 +66,9 @@ export function TopTen({ onSelect }: { onSelect: (anime: Anime) => void }) {
                     alt={`${anime.title} 포스터`}
                     fill
                     sizes="144px"
+                    // 처음부터 화면에 보이는 앞쪽 3장은 바로 받는다 (가장 먼저 눈에 띄는 그림)
+                    loading={i < 3 ? 'eager' : 'lazy'}
+                    fetchPriority={i < 3 ? 'high' : 'auto'}
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />

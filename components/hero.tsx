@@ -24,7 +24,7 @@ export function Hero({
   ).toFixed(1)
 
   return (
-    <header className="relative overflow-hidden">
+    <header data-hero className="relative overflow-hidden">
       <div className="absolute inset-0 flex flex-col justify-center gap-3 sm:gap-4">
         <MarqueeRow items={rowOne} direction="left" />
         <MarqueeRow items={rowTwo} direction="right" />
@@ -33,7 +33,7 @@ export function Hero({
 
       <div
         className={`relative mx-auto flex max-w-5xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 ${
-          fullScreen ? 'min-h-screen' : 'min-h-[70vh]'
+          fullScreen ? 'min-h-svh' : 'min-h-[70vh]'
         }`}
       >
         <h1 className="font-serif text-4xl leading-[1.1] text-balance text-foreground sm:text-6xl lg:text-7xl">
@@ -79,7 +79,8 @@ function MarqueeRow({
 }) {
   // 화면 폭보다 넓게 채우도록 한 세트를 충분히 반복한 뒤, 그 세트를 2배로 복제해
   // translateX(-50%) 순환 시 오른쪽에 빈 여백이 생기지 않도록 한다.
-  const MIN_ITEMS_PER_SET = 16
+  // 한 줄 15편이면 가장 넓은 화면(약 2,900px)도 채워지므로 반복하지 않는다 (이미지 태그 120개 → 60개)
+  const MIN_ITEMS_PER_SET = 12
   const set: typeof items = []
   while (set.length < MIN_ITEMS_PER_SET) {
     set.push(...items)

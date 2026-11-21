@@ -58,7 +58,7 @@ function CategoryRow({
       >
         {animes.map((anime) => (
           <li key={anime.id} className="w-40 shrink-0 snap-start sm:w-48">
-            <PosterCard anime={anime} onSelect={onSelect} />
+            <PosterCard anime={anime} onSelect={onSelect} sizes="(min-width: 640px) 192px, 160px" />
           </li>
         ))}
       </ul>

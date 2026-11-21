@@ -48,6 +48,12 @@ export const viewport: Viewport = {
   ],
 }
 
+// 주소에 ?view= 나 ?anime= 가 있으면(앱으로 열기, 공유 링크) 첫 화면(히어로)을 건너뛴다.
+// 서버는 주소의 ? 뒷부분을 모른 채 첫 화면을 그려 보내기 때문에, 그대로 두면 잠깐 첫 화면이
+// 보이고 그 뒤 배경 포스터 30장(약 2MB)까지 받게 된다. 화면을 그리기 전에 표시만 해 두고
+// CSS 로 첫 화면을 숨긴다 (숨긴 이미지는 내려받지 않음). 표시는 site-experience 가 지운다.
+const DEEP_LINK_SCRIPT = `if(/[?&](view|anime)=/.test(location.search))document.documentElement.classList.add('deep-link')`
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,6 +65,9 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} ${notoSansKr.variable} ${notoSerifKr.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: DEEP_LINK_SCRIPT }} />
+      </head>
       <body className="bg-background font-sans antialiased">
         <ThemeProvider
           attribute="class"
