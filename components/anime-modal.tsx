@@ -64,7 +64,8 @@ export function AnimeModal({
         </button>
 
         <div className="grid gap-0 sm:grid-cols-[240px_1fr]">
-          <div className="relative aspect-[2/3] sm:aspect-auto sm:min-h-[360px]">
+          {/* 큰 포스터는 태블릿·PC 에서만. 모바일은 아래 제목 옆에 작게 보여준다 */}
+          <div className="relative hidden sm:block sm:min-h-[360px]">
             <Image
               src={anime.poster || '/placeholder.svg'}
               alt={`${anime.title} 포스터`}
@@ -76,32 +77,48 @@ export function AnimeModal({
           </div>
 
           <div className="p-6 sm:p-8">
-            <div className="flex flex-wrap gap-2">
-              {anime.genre.map((g) => (
-                <span
-                  key={g}
-                  className="inline-flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground"
-                >
-                  <Tag className="size-3" aria-hidden="true" />
-                  {g}
-                </span>
-              ))}
-            </div>
+            <div className="flex items-start gap-4 pr-10 sm:block sm:pr-0">
+              <div className="relative aspect-[2/3] w-28 shrink-0 overflow-hidden rounded-lg bg-secondary sm:hidden">
+                <Image
+                  src={anime.poster || '/placeholder.svg'}
+                  alt={`${anime.title} 포스터`}
+                  fill
+                  sizes="112px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <div className="flex flex-wrap gap-2">
+                  {anime.genre.map((g) => (
+                    <span
+                      key={g}
+                      className="inline-flex items-center gap-1 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground"
+                    >
+                      <Tag className="size-3" aria-hidden="true" />
+                      {g}
+                    </span>
+                  ))}
+                </div>
 
-            <h2 className="mt-4 font-serif text-3xl leading-tight text-balance text-foreground">
-              {anime.title}
-            </h2>
-            <p className="mt-1 text-sm text-muted-foreground">{anime.original}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-balance text-foreground sm:mt-4 sm:text-3xl">
+                  {anime.title}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground">{anime.original}</p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-4">
-              <span className="flex items-center gap-1.5 text-sm font-semibold text-amber-300">
-                <Star className="size-4 fill-amber-300 text-amber-300" aria-hidden="true" />
-                {anime.rating.toFixed(1)}
-              </span>
-              <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Calendar className="size-4" aria-hidden="true" />
-                {anime.year}
-              </span>
+                <div className="mt-3 flex flex-wrap items-center gap-4 sm:mt-4">
+                  <span className="flex items-center gap-1.5 text-sm font-semibold text-amber-300">
+                    <Star
+                      className="size-4 fill-amber-300 text-amber-300"
+                      aria-hidden="true"
+                    />
+                    {anime.rating.toFixed(1)}
+                  </span>
+                  <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <Calendar className="size-4" aria-hidden="true" />
+                    {anime.year}
+                  </span>
+                </div>
+              </div>
             </div>
 
             {anime.tags?.length > 0 && (
