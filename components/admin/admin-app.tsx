@@ -40,6 +40,7 @@ type Form = {
   title: string
   original: string
   genre: string[]
+  tags: string[]
   year: string
   rating: string
   tagline: string
@@ -68,6 +69,7 @@ const emptyForm = (): Form => ({
   title: '',
   original: '',
   genre: [],
+  tags: [],
   year: '',
   rating: '',
   tagline: '',
@@ -213,6 +215,13 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
     return items.reverse() // 최근에 추가한 작품이 위로
   }, [anime, query])
 
+  // 지금까지 쓰인 태그 (많이 쓰인 순)
+  const allTags = useMemo(() => {
+    const count = new Map<string, number>()
+    for (const a of anime ?? []) for (const t of a.tags ?? []) count.set(t, (count.get(t) ?? 0) + 1)
+    return [...count.entries()].sort((x, y) => y[1] - x[1]).map(([t]) => t)
+  }, [anime])
+
   const finish = (result: Notice) => {
     setNotice(result)
     setEditing(null)
@@ -270,6 +279,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
           key={editing === 'new' ? 'new' : editing.id}
           target={editing}
           themes={themes}
+          allTags={allTags}
           onCancel={() => setEditing(null)}
           onDone={finish}
         />
@@ -370,11 +380,13 @@ function PosterThumb({ src, className }: { src: string | null; className: string
 function Editor({
   target,
   themes,
+  allTags,
   onCancel,
   onDone,
 }: {
   target: Anime | 'new'
   themes: SituationCategory[]
+  allTags: string[]
   onCancel: () => void
   onDone: (notice: Notice) => void
 }) {
@@ -387,6 +399,7 @@ function Editor({
           title: target.title,
           original: target.original,
           genre: target.genre,
+          tags: target.tags ?? [],
           year: String(target.year),
           rating: String(target.rating),
           tagline: target.tagline,
@@ -404,7 +417,7 @@ function Editor({
   const set = <K extends keyof Form>(key: K, value: Form[K]) =>
     setForm((f) => ({ ...f, [key]: value }))
 
-  const toggle = (key: 'genre' | 'themeIds', value: string) =>
+  const toggle = (key: 'genre' | 'themeIds' | 'tags', value: string) =>
     setForm((f) => ({
       ...f,
       [key]: f[key].includes(value) ? f[key].filter((v) => v !== value) : [...f[key], value],
@@ -442,6 +455,7 @@ function Editor({
           title: form.title,
           original: form.original,
           genre: form.genre,
+          tags: form.tags,
           year: Number(form.year),
           rating: Number(form.rating),
           tagline: form.tagline,
@@ -580,6 +594,17 @@ function Editor({
                 </Chip>
               ))}
             </div>
+          </Field>
+
+          <Field label="태그" hint="상세 창에 #태그로 보여요 · 최대 6개">
+            <TagPicker
+              value={form.tags}
+              options={allTags}
+              onToggle={(t) => toggle('tags', t)}
+              onAdd={(t) =>
+                setForm((f) => (f.tags.includes(t) ? f : { ...f, tags: [...f.tags, t] }))
+              }
+            />
           </Field>
 
           <Field label="한 줄 소개">
@@ -792,6 +817,77 @@ function TmdbSearch({
         {skipLabel}
       </button>
     </section>
+  )
+}
+
+function TagPicker({
+  value,
+  options,
+  onToggle,
+  onAdd,
+}: {
+  value: string[]
+  options: string[]
+  onToggle: (tag: string) => void
+  onAdd: (tag: string) => void
+}) {
+  const [draft, setDraft] = useState('')
+  const [showAll, setShowAll] = useState(false)
+  // 이 작품에 붙은 태그 + 많이 쓰인 태그 몇 개만 먼저 보여준다
+  const shown = showAll
+    ? [...new Set([...value, ...options])]
+    : [...new Set([...value, ...options.slice(0, 14)])]
+
+  const add = () => {
+    const tag = draft.trim().replace(/^#/, '')
+    if (!tag) return
+    onAdd(tag)
+    setDraft('')
+  }
+
+  return (
+    <div>
+      <div className="flex flex-wrap gap-2">
+        {shown.map((t) => (
+          <Chip key={t} active={value.includes(t)} onClick={() => onToggle(t)}>
+            #{t}
+          </Chip>
+        ))}
+        {!showAll && options.length > 14 && (
+          <button
+            type="button"
+            onClick={() => setShowAll(true)}
+            className="rounded-full px-3 py-1.5 text-sm text-muted-foreground underline hover:text-foreground"
+          >
+            태그 {options.length}개 전부 보기
+          </button>
+        )}
+      </div>
+      <div className="mt-2 flex gap-2">
+        <input
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+              e.preventDefault()
+              add()
+            }
+          }}
+          maxLength={12}
+          placeholder="새 태그 (예: 스포츠)"
+          aria-label="새 태그"
+          className={inputClass}
+        />
+        <button
+          type="button"
+          onClick={add}
+          disabled={!draft.trim()}
+          className="shrink-0 rounded-lg border border-border px-4 text-sm font-medium text-foreground hover:bg-secondary disabled:opacity-50"
+        >
+          추가
+        </button>
+      </div>
+    </div>
   )
 }
 

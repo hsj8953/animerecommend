@@ -6,6 +6,8 @@ export type Anime = {
   title: string
   original: string
   genre: string[]
+  // 상세 창에 보이는 세부 태그 (#이세계 #요리 ...). 비슷한 작품을 고를 때도 쓴다
+  tags: string[]
   year: number
   rating: number
   tagline: string

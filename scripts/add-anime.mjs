@@ -166,6 +166,7 @@ async function main() {
       title,
       original,
       genre,
+      tags: [], // 태그는 관리자 페이지에서 달면 된다
       year: yearInput,
       rating: Math.round(rating * 10) / 10,
       tagline,

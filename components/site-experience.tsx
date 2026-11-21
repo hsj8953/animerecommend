@@ -136,7 +136,7 @@ export function SiteExperience() {
         onClose={() => setRandomOpen(false)}
         onPick={pickRandom}
       />
-      <AnimeModal anime={selectedAnime} onClose={closeAnime} />
+      <AnimeModal anime={selectedAnime} onClose={closeAnime} onSelect={openAnime} />
     </>
   )
 

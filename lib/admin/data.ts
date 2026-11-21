@@ -49,6 +49,15 @@ function clean(input: SaveInput['anime'], mode: SaveInput['mode']): Omit<Anime, 
   if (!Number.isFinite(rating) || rating < 0 || rating > 10) {
     throw new AdminError('평점은 0~10 사이로 입력해 주세요.')
   }
+  const tags = [
+    ...new Set(
+      (Array.isArray(input.tags) ? input.tags : [])
+        .map((t) => text(t).replace(/^#/, ''))
+        .filter(Boolean),
+    ),
+  ]
+  if (tags.some((t) => t.length > 12)) throw new AdminError('태그는 12자 이하로 써 주세요.')
+  if (tags.length > 6) throw new AdminError('태그는 6개까지 달 수 있어요.')
   const tagline = text(input.tagline)
   if (!tagline) throw new AdminError('한 줄 소개를 입력해 주세요.')
   return {
@@ -56,6 +65,7 @@ function clean(input: SaveInput['anime'], mode: SaveInput['mode']): Omit<Anime, 
     title,
     original: text(input.original),
     genre,
+    tags,
     year,
     rating: Math.round(rating * 10) / 10,
     tagline,

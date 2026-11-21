@@ -5,16 +5,21 @@ import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import { Star, X, Calendar, Tag } from 'lucide-react'
 import type { Anime } from '@/lib/anime-data'
+import { getSimilarAnime } from '@/lib/similar'
 import { useModal } from '@/lib/use-modal'
 
 export function AnimeModal({
   anime,
   onClose,
+  onSelect,
 }: {
   anime: Anime | null
   onClose: () => void
+  // 비슷한 작품을 눌렀을 때 (없으면 비슷한 작품 줄을 숨긴다)
+  onSelect?: (anime: Anime) => void
 }) {
   const closeRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -23,7 +28,14 @@ export function AnimeModal({
 
   useModal(Boolean(anime), onClose, closeRef)
 
+  // 비슷한 작품으로 넘어가면 창 맨 위부터 보이게
+  useEffect(() => {
+    panelRef.current?.scrollTo({ top: 0 })
+  }, [anime?.id])
+
   if (!anime || !mounted) return null
+
+  const similar = onSelect ? getSimilarAnime(anime) : []
 
   return createPortal(
     <div
@@ -38,7 +50,10 @@ export function AnimeModal({
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
       />
 
-      <div className="relative z-10 max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl">
+      <div
+        ref={panelRef}
+        className="relative z-10 max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-2xl border border-border bg-card shadow-2xl sm:rounded-2xl"
+      >
         <button
           ref={closeRef}
           onClick={onClose}
@@ -89,6 +104,16 @@ export function AnimeModal({
               </span>
             </div>
 
+            {anime.tags?.length > 0 && (
+              <ul className="mt-4 flex flex-wrap gap-x-3 gap-y-1" aria-label="태그">
+                {anime.tags.map((t) => (
+                  <li key={t} className="text-sm font-medium text-primary">
+                    #{t.replace(/\s+/g, '')}
+                  </li>
+                ))}
+              </ul>
+            )}
+
             <p className="mt-6 font-serif text-lg text-foreground text-pretty">
               {anime.tagline}
             </p>
@@ -116,6 +141,40 @@ export function AnimeModal({
             </div>
           </div>
         </div>
+
+        {similar.length > 0 && (
+          <section
+            aria-label="비슷한 작품"
+            className="border-t border-border px-6 pb-7 pt-6 sm:px-8"
+          >
+            <h3 className="text-sm font-semibold text-foreground">
+              이거 좋았으면 이것도
+            </h3>
+            <ul className="-mx-1 mt-3 flex gap-3 overflow-x-auto px-1 pb-1">
+              {similar.map((s) => (
+                <li key={s.id} className="w-24 shrink-0 sm:w-28">
+                  <button
+                    onClick={() => onSelect?.(s)}
+                    className="group block w-full text-left"
+                  >
+                    <span className="relative block aspect-[2/3] overflow-hidden rounded-lg bg-secondary">
+                      <Image
+                        src={s.poster || '/placeholder.svg'}
+                        alt=""
+                        fill
+                        sizes="112px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </span>
+                    <span className="mt-1.5 line-clamp-2 text-xs font-medium leading-snug text-foreground group-hover:text-primary">
+                      {s.title}
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </div>,
     document.body,
