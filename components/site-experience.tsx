@@ -6,11 +6,13 @@ import { SideNav } from '@/components/side-nav'
 import { SitesModal } from '@/components/sites-modal'
 import { RandomModal } from '@/components/random-modal'
 import { AnimeModal } from '@/components/anime-modal'
+import { InstallGuideModal } from '@/components/install-guide-modal'
 import { Hero } from '@/components/hero'
 import { Showcase } from '@/components/showcase'
 import { SituationCollection } from '@/components/situation-collection'
 import { animeList, getAnimeById, type Anime } from '@/lib/anime-data'
 import { useUrlState } from '@/lib/use-url-state'
+import { promptInstall } from '@/lib/pwa'
 
 // 사이트 안에서 연 상세 모달은 history.state 에 표시해 두고,
 // 닫을 때 뒤로가기로 되돌린다 (공유 링크로 바로 들어온 경우엔 주소만 바꾼다)
@@ -27,6 +29,7 @@ export function SiteExperience() {
   const [navOpen, setNavOpen] = useState(false)
   const [sitesOpen, setSitesOpen] = useState(false)
   const [randomOpen, setRandomOpen] = useState(false)
+  const [installGuideOpen, setInstallGuideOpen] = useState(false)
   const lastRandomId = useRef<string | null>(null)
 
   // 없는 작품 id 가 주소에 있으면 조용히 지운다
@@ -93,6 +96,12 @@ export function SiteExperience() {
     }
   }, [navigate, view])
 
+  // 크롬은 설치 팝업을 바로 띄우고, 아이폰·삼성 인터넷 등은 설치 방법을 보여준다
+  const install = async () => {
+    const shown = await promptInstall()
+    if (!shown) setInstallGuideOpen(true)
+  }
+
   const pickRandom = (genre: string) => {
     const byGenre =
       genre === '전체'
@@ -129,7 +138,9 @@ export function SiteExperience() {
         onRandom={() => setRandomOpen(true)}
         onSearch={() => goHome('search')}
         onSites={() => setSitesOpen(true)}
+        onInstall={install}
       />
+      <InstallGuideModal open={installGuideOpen} onClose={() => setInstallGuideOpen(false)} />
       <SitesModal open={sitesOpen} onClose={() => setSitesOpen(false)} />
       <RandomModal
         open={randomOpen}

@@ -1,8 +1,9 @@
 'use client'
 
 import { useRef } from 'react'
-import { Home, LayoutGrid, Shuffle, Search, Globe, X } from 'lucide-react'
+import { Home, LayoutGrid, Shuffle, Search, Globe, Smartphone, X } from 'lucide-react'
 import { useModal } from '@/lib/use-modal'
+import { usePwa } from '@/lib/pwa'
 
 type NavAction = {
   key: string
@@ -20,6 +21,7 @@ export function SideNav({
   onRandom,
   onSearch,
   onSites,
+  onInstall,
 }: {
   open: boolean
   onClose: () => void
@@ -28,11 +30,13 @@ export function SideNav({
   onRandom: () => void
   onSearch: () => void
   onSites: () => void
+  onInstall: () => void
 }) {
   const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef<HTMLButtonElement>(null)
 
   useModal(open, onClose, closeRef)
+  const { installed } = usePwa()
 
   const run = (fn: () => void) => () => {
     onClose()
@@ -48,6 +52,10 @@ export function SideNav({
   const secondary: NavAction[] = [
     { key: 'search', label: '작품 검색', description: '제목·원제·소개로 찾기', icon: Search, onClick: run(onSearch) },
     { key: 'sites', label: '애니 사이트', description: '스트리밍 바로가기', icon: Globe, onClick: run(onSites) },
+    // 이미 앱으로 열었으면 설치 버튼은 숨긴다
+    ...(installed
+      ? []
+      : [{ key: 'install', label: '앱으로 설치', description: '홈 화면에 AniPick 아이콘 추가', icon: Smartphone, onClick: run(onInstall) }]),
   ]
 
   return (

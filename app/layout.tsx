@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Noto_Sans_KR, Noto_Serif_KR, Playfair_Display } from 'next/font/google'
 import { ThemeProvider } from '@/components/theme-provider'
+import { PwaStart } from '@/components/pwa-start'
 import './globals.css'
 
 const inter = Inter({
@@ -35,6 +36,8 @@ export const metadata: Metadata = {
   description:
     '직접 보고 엄선한 애니메이션 명작들을 장르별 포스터로 소개하고 추천하는 큐레이션 페이지',
   generator: 'v0.app',
+  // 아이폰에서 홈 화면에 추가했을 때 앱처럼 열리게
+  appleWebApp: { capable: true, title: 'AniPick', statusBarStyle: 'black' },
 }
 
 export const viewport: Viewport = {
@@ -64,6 +67,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <PwaStart />
         </ThemeProvider>
       </body>
     </html>
