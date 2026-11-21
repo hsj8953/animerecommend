@@ -34,7 +34,7 @@ export function PosterCard({
             {anime.genre.slice(0, 2).map((g) => (
               <span
                 key={g}
-                className="max-w-full truncate rounded-full border border-border/60 bg-background/70 px-2.5 py-1 text-[11px] font-medium text-foreground/90 backdrop-blur-sm"
+                className="max-w-full truncate rounded-full border border-border/60 bg-background/85 px-2.5 py-1 text-[11px] font-medium text-foreground/90"
               >
                 {g}
               </span>
@@ -42,7 +42,7 @@ export function PosterCard({
           </div>
 
           {/* Rating badge */}
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-amber-300 backdrop-blur-sm">
+          <span className="flex shrink-0 items-center gap-1 rounded-full bg-black/75 px-2.5 py-1 text-[11px] font-semibold text-amber-300">
             <Star className="size-3 fill-amber-300 text-amber-300" aria-hidden="true" />
             {anime.rating.toFixed(1)}
           </span>

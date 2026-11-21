@@ -42,7 +42,7 @@ export function SitesModal({
       <button
         aria-label="닫기"
         onClick={onClose}
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80"
       />
 
       <div className="relative z-10 max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-border bg-card p-6 shadow-2xl sm:rounded-2xl sm:p-8">
@@ -50,7 +50,7 @@ export function SitesModal({
           ref={closeRef}
           onClick={onClose}
           aria-label="닫기"
-          className="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur-sm transition-colors hover:bg-background"
+          className="absolute right-4 top-4 flex size-9 items-center justify-center rounded-full bg-background/85 text-foreground transition-colors hover:bg-background"
         >
           <X className="size-5" aria-hidden="true" />
         </button>

@@ -47,7 +47,7 @@ export function AnimeModal({
       <button
         aria-label="닫기"
         onClick={onClose}
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80"
       />
 
       <div
@@ -58,7 +58,7 @@ export function AnimeModal({
           ref={closeRef}
           onClick={onClose}
           aria-label="닫기"
-          className="absolute right-4 top-4 z-20 flex size-9 items-center justify-center rounded-full bg-background/70 text-foreground backdrop-blur-sm transition-colors hover:bg-background"
+          className="absolute right-4 top-4 z-20 flex size-9 items-center justify-center rounded-full bg-background/85 text-foreground transition-colors hover:bg-background"
         >
           <X className="size-5" aria-hidden="true" />
         </button>

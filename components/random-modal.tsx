@@ -30,7 +30,7 @@ export function RandomModal({
       <button
         aria-label="랜덤 추천 닫기"
         onClick={onClose}
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/75"
       />
 
       <div
